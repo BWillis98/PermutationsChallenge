@@ -54,14 +54,22 @@ public class Handler {
 		int remainderLength = (indexesOfInputStringAsCharArray.length - 1) - majorIndex;
 		int[] leftOverArrayToSort = new int[remainderLength];
 		
-		System.out.println("Remainder Length = " + remainderLength);
-		for (int i = majorIndex + 1; i < indexesOfInputStringAsCharArray.length - 1; i++){
-			leftOverArrayToSort[i] = indexesOfInputStringAsCharArray[i];
-		}
+		leftOverArrayToSort = getRemainder(majorIndex, leftOverArrayToSort);
 		Arrays.sort(leftOverArrayToSort);
-		for (int i = majorIndex + 1; i < indexesOfInputStringAsCharArray.length - 1; i++){
-			 indexesOfInputStringAsCharArray[i] = leftOverArrayToSort[i];
+		assignRemainderToIndexArray(majorIndex, leftOverArrayToSort);
+	}
+
+	public void assignRemainderToIndexArray(int majorIndex, int[] leftOverArrayToSort) {
+		for (int i = majorIndex + 1, j = 0; i < indexesOfInputStringAsCharArray.length; i++, j++){
+			 indexesOfInputStringAsCharArray[i] = leftOverArrayToSort[j];
 		}
+	}
+
+	public int[] getRemainder(int majorIndex, int[] leftOverArrayToSort) {
+		for (int i = majorIndex + 1, j = 0; i < indexesOfInputStringAsCharArray.length; i++, j++){
+			leftOverArrayToSort[j] = indexesOfInputStringAsCharArray[i];
+		}
+		return leftOverArrayToSort;
 	}
 
 	public void swapWithNextSmallestNumber(int majorIndex, int majorNumber) {
@@ -91,13 +99,11 @@ public class Handler {
 	
 	
 	private void printInputParameter() {
-		System.out.println();
 		String output = "";
 		for (int index : indexesOfInputStringAsCharArray){
 			output += inputCharArray[index];
-			System.out.print(index);
 		}
-		System.out.println("\n" + output);
+		System.out.println(output);
 	}
 	
 
