@@ -22,7 +22,6 @@ public class Handler {
 	}
 
 	private void process(int[] input){
-		
 		printInputParameter();
 		
 		// Searches for a time where a number is bigger than the one that's to its left.
@@ -32,9 +31,7 @@ public class Handler {
 				process(indexesOfInputStringAsCharArray);
 			}
 		}
-		
 		return;
-		
 	}
 	
 	private void updateIndexesArray(int indexOfMajorChangingNumber) {
@@ -44,16 +41,12 @@ public class Handler {
 		
 		// Guaranteed for there to be a next smallest b/c current method only gets called if there is.
 		swapWithNextSmallestNumber(majorIndex, majorNumber);
-		
 		sortRemainder(majorIndex);
 	}
 	
-	// I know this is inefficient, but its temporary
 	public void sortRemainder(int majorIndex) {
-		
 		int remainderLength = (indexesOfInputStringAsCharArray.length - 1) - majorIndex;
 		int[] leftOverArrayToSort = new int[remainderLength];
-		
 		leftOverArrayToSort = getRemainder(majorIndex, leftOverArrayToSort);
 		Arrays.sort(leftOverArrayToSort);
 		assignRemainderToIndexArray(majorIndex, leftOverArrayToSort);
@@ -73,10 +66,8 @@ public class Handler {
 	}
 
 	public void swapWithNextSmallestNumber(int majorIndex, int majorNumber) {
-		
 		boolean done = false;
 		int nextBiggest = majorNumber;
-		
 		while (!done){
 			nextBiggest++;
 			for (int i = majorIndex + 1; i < indexesOfInputStringAsCharArray.length; i++){
