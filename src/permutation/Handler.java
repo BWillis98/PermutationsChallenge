@@ -114,6 +114,7 @@ public class Handler {
 					input[majorIndex] = input[i];
 					input[i] = majorChar;
 					done = true;
+					break;
 				}
 			}
 		}
