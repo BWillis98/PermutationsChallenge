@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Handler {
 
-	private void begin() {
+	protected void begin() {
 		/*
 		 * This method is called when the user wishes to being the process of
 		 * printing every possible permutation of a given string.
@@ -19,6 +19,7 @@ public class Handler {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter in the string you want to permutate\n");
 		String input = sc.next();
+		sc.close();
 		char[] inputCharArray = input.toCharArray();
 		Arrays.sort(inputCharArray);
 		do {
@@ -26,7 +27,7 @@ public class Handler {
 		} while (inputCharArray != null);
 	}
 
-	private char[] process(char[] input) {
+	protected char[] process(char[] input) {
 		/*
 		 * This method is intended to handle the overall process and implement
 		 * my algorithm to generate every possible permutation.
@@ -36,39 +37,21 @@ public class Handler {
 		 * 
 		 * 2. Update input array to the next permutation
 		 * 
-		 * 3. Call this method again, passing in the next permutation.
+		 * 3. Return the Input array
 		 */
 		System.out.println(String.valueOf(input));
 		// Searches for a time where a char is greater than the one to its left
 		for (int i = input.length - 1; i > 0; i--) {
 			if (input[i] > input[i - 1]) {
-				input = updateInputArray(input, i - 1);
+				input = swapWithNextSmallestChar(input, i - 1);
+				input = sortRemainder(input, i - 1);
 				return input;
 			}
 		}
 		return null;
 	}
 
-	private char[] updateInputArray(char[] input, int indexOfMajorChangingChar) {
-		/*
-		 * It is guaranteed for there to be a char that is smaller than the char
-		 * in the input array at the index: indexOfMajorChangingChar b/c current
-		 * method only gets called if there is. *See process for proof of this*
-		 * 
-		 * This method:
-		 * 
-		 * 1. Swaps the major changing char with the smallest char to it's right
-		 * in the string.
-		 * 
-		 * 2. Sorts everything to the right of the major changing char.
-		 */
-		//
-		input = swapWithNextSmallestChar(input, indexOfMajorChangingChar);
-		sortRemainder(input, indexOfMajorChangingChar);
-		return input;
-	}
-
-	public char[] sortRemainder(char[] input, int majorIndex) {
+	protected char[] sortRemainder(char[] input, int majorIndex) {
 		/*
 		 * This method sorts portion of the input array from the majorindex + 1
 		 * to the end of the input array.
@@ -81,20 +64,17 @@ public class Handler {
 		 * 3. Inserts the sorted remainder back into the input array.
 		 */
 		int remainderLength = (input.length - 1) - majorIndex;
-		char[] leftOverArray = new char[remainderLength];
-		leftOverArray = Arrays.copyOfRange(input, majorIndex + 1, input.length);
-		Arrays.sort(leftOverArray);
-		return assignRemainderToInputArray(input, majorIndex, leftOverArray);
-	}
-
-	public char[] assignRemainderToInputArray(char[] input, int majorIndex, char[] leftOverArray) {
-		for (int j = 0; j < leftOverArray.length; j++) {
-			input[majorIndex + 1 + j] = leftOverArray[j];
+		char[] remainder = new char[remainderLength];
+		remainder = Arrays.copyOfRange(input, majorIndex + 1, input.length);
+		Arrays.sort(remainder);
+		// Reassign sorter remainder into input array
+		for (int j = 0; j < remainder.length; j++) {
+			input[majorIndex + 1 + j] = remainder[j];
 		}
 		return input;
 	}
 
-	public char[] swapWithNextSmallestChar(char[] input, int majorIndex) {
+	protected char[] swapWithNextSmallestChar(char[] input, int majorIndex) {
 		/*
 		 * This method method takes the value at the index: majorIndex in the
 		 * input array and swaps that char with the next smallest one.
